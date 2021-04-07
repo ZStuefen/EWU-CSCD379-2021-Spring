@@ -1,0 +1,29 @@
+@model EventViewModel
+
+<form asp-controller="Events" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Title"></label>: <input type="text" asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label>: <input type="text" asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <label asp-for="Date"></label>: <input type="text" asp-for="Date" />
+        <span asp-validation-for="Date"></span>
+    </div>
+    <div>
+        <label asp-for="Location"></label>: <input type="text" asp-for="Location" />
+        <span asp-validation-for="Location"></span>
+    </div>
+    <div>
+        <label asp-for="SpeakerId"></label>
+        <select asp-for="SpeakerId" asp-items="@(new SelectList(MockData.Speakers, "Id", "FullName"))">
+            <option>Please select one</option>
+        </select>
+        <span asp-validation-for="SpeakerId"></span>
+    </div>
+    <button>Create</button>
+    <a asp-controller="Events" asp-action="Index">Cancel</a>
+</form>

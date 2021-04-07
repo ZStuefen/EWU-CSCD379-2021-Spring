@@ -16,5 +16,6 @@ namespace UserGroup.Web.ViewModels
         [EmailAddress]
         [Display(Name="Email")]
         public string EmailAddress  { get; set; } = "";
+        public string FullName { get => $"{FirstName} {LastName}"; }
     }
 }
