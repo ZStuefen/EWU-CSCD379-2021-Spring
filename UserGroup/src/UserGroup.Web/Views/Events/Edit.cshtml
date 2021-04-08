@@ -17,13 +17,6 @@
         <label asp-for="Location"></label>: <input type="text" asp-for="Location" />
         <span asp-validation-for="Location"></span>
     </div>
-    <div>
-        <label asp-for="SpeakerId"></label>
-        <select asp-for="SpeakerId" asp-items="@(new SelectList(MockData.Speakers, "Id", "FullName"))">
-            <option>Please select one</option>
-        </select>
-        <span asp-validation-for="SpeakerId"></span>
-    </div>
     <button>Update</button>
     <a asp-controller="Events" asp-action="Index">Cancel</a>
 </form>
