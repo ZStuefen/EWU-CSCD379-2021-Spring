@@ -1,8 +1,10 @@
-@model GiftViewModel
+﻿@model GiftViewModel
 
-<form asp-controller="Gifts" asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
-    @await Html.PartialAsync("_CreateOrEdit")
-    <button>Update</button>
-    <a asp-controller="Gifts" asp-action="Index">Cancel</a>
-</form>
+<section class="m-5">
+    <form asp-controller="Gifts" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        @await Html.PartialAsync("_CreateOrEdit")
+        <button class="btn mr-6">Update</button>
+        <a class="btn bg-red-400 inline-block"  asp-controller="Gifts" asp-action="Index">Cancel</a>
+    </form>
+</section
