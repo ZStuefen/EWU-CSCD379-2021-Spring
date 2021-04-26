@@ -1,0 +1,36 @@
+@hostname = localhost
+@port = 5101
+@host = https://{{hostname}}:{{port}}
+@contentType = application/json
+
+###
+GET {{host}}/api/users
+
+###
+GET {{host}}/api/users/3
+
+###
+DELETE {{host}}/api/users/0
+
+###
+DELETE {{host}}/api/users/1
+
+###
+POST {{host}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "id" : 43,
+  "firstName": "First of the Name",
+  "lastName": "Last of the Name"
+}
+
+###
+PUT {{host}}/api/users/1
+Content-Type: {{contentType}}
+
+{
+  "firstName": "TesterFirst",
+  "lastName": "TesterLast",
+  "id" : 2
+}
