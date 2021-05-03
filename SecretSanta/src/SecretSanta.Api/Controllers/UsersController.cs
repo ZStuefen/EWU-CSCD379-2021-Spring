@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SecretSanta.Api.Dto;
 using SecretSanta.Business;
 using SecretSanta.Data;
 
@@ -33,8 +34,14 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult Delete(int id)
         {
+            if (id < 0)
+            {
+                return NotFound();
+            }
             if (Repository.Remove(id))
             {
                 return Ok();
@@ -43,6 +50,8 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public ActionResult<User?> Post([FromBody] User? user)
         {
             if (user is null)
@@ -53,7 +62,7 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] User? user)
+        public ActionResult Put(int id, [FromBody] UpdateUser? user)
         {
             if (user is null)
             {

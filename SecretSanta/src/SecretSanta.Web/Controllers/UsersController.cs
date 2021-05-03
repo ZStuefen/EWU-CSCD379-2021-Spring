@@ -1,14 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SecretSanta.Web.Api;
 using SecretSanta.Web.Data;
 using SecretSanta.Web.ViewModels;
 
 namespace SecretSanta.Web.Controllers
 {
     public class UsersController : Controller
-    {
-        public IActionResult Index()
+    {   
+        public IUsersClient Client { get; }
+
+        public UsersController(IUsersClient client)
         {
-            return View(MockData.Users);
+            Client = client ?? throw new ArgumentNullException(nameof(client));
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            ICollection<User> users = await Client.GetAllAsync();
+            List<UserViewModel> viewModelUsers = new();
+            foreach(User e in users)
+            {
+                viewModelUsers.Add(new UserViewModel
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName
+                });
+            }
+            return View(viewModelUsers);
         }
 
         public IActionResult Create()
@@ -17,11 +39,14 @@ namespace SecretSanta.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(UserViewModel viewModel)
+        public async Task<IActionResult> Create(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                MockData.Users.Add(viewModel);
+                await Client.PostAsync(new User {
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName
+                });
                 return RedirectToAction(nameof(Index));
             }
 
@@ -46,9 +71,9 @@ namespace SecretSanta.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            MockData.Users.RemoveAt(id);
+            await Client.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }
