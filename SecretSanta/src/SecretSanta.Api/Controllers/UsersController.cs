@@ -14,9 +14,9 @@ namespace SecretSanta.Api.Controllers
     {
         private IUserRepository Repository { get; }
 
-        public UsersController(IUserRepository repository)
+        public UsersController(IUserRepository userRepository)
         {
-            Repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            Repository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         [HttpGet]
@@ -28,6 +28,10 @@ namespace SecretSanta.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<User?> Get(int id)
         {
+            if (id < 0)
+            {
+                return NotFound();
+            }
             User? user = Repository.GetItem(id);
             if (user is null) return NotFound();
             return user;
