@@ -33,12 +33,9 @@ jobs:
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm run build:prod
       
-    - name: npm install api
+    - name: dotnet build api
       working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: npm install
-    - name: npm build api
-      working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: npm run build
+      run: dotnet build
 
     - name: Restore dependencies
       run: dotnet restore

@@ -1,6 +1,9 @@
 ﻿# EWU-CSCD379-2021-Spring
 
-![](../../workflows/.NET/badge.svg)
+![](../../workflows/AssignmentBuild.yml/badge.svg)
+
+Fork/Branch:
+https://github.com/ZStuefen/EWU-CSCD379-2021-Spring/tree/Assignment6
 
 Running Website:
 https://ewu-cscd379-2021-spring-zstuefen.azurewebsites.net/
