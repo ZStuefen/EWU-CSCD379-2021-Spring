@@ -1,4 +1,8 @@
-﻿
+﻿# EWU-CSCD379-2021-Spring
+
+![](../../workflows/.NET/badge.svg)
+
+
 # Assignment 6
 
 ## Overview
