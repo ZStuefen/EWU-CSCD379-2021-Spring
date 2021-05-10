@@ -26,10 +26,10 @@ jobs:
     - name: Get Directory
       run: pwd
 
-    - name: npm install web
+    - name: npm install
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm install
-    - name: npm build web
+    - name: npm build
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm run build:prod
 
