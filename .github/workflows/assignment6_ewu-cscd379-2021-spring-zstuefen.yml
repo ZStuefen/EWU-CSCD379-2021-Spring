@@ -5,33 +5,36 @@ name: Azure App Service - EWU-CSCD379-2021-Spring-ZStuefen(Production), Build an
 
 on:
   push:
-    branches:
-      - Assignment6
+    branches: [ Assignment* ]
+  pull_request:
+    branches: [ Assignment* ]
 
 jobs:
-  build-and-deploy:
+  build:
+    defaults:
+      run:
+        working-directory: ./SecretSanta/
     runs-on: ubuntu-latest
 
     steps:
-    # checkout the repo
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@master
-
-
-    - name: Set up .NET Core
+    - uses: actions/checkout@v2
+ 
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
+        dotnet-version: 5.0.x
+    - name: Get Directory
+      run: pwd
 
-    - name: Run Npm Build
+    - name: npm install
       working-directory: ./SecretSanta/src/SecretSanta.Web/
-      run: |
-        npm install
-        npm run build:prod
+      run: npm install
+    - name: npm build
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: npm run build:prod
 
     - name: Restore dependencies
       run: dotnet restore
-
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
