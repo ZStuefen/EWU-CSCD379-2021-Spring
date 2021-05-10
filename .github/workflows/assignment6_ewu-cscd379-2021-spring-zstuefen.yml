@@ -23,11 +23,21 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+    - name: Run Npm Build
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: |
+        npm install
+        npm run build:prod
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
@@ -35,5 +45,5 @@ jobs:
         app-name: EWU-CSCD379-2021-Spring-ZStuefen
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_29BEF7D4E1394AC49B7C254340D7761E }}
-        package: ${{env.DOTNET_ROOT}}/myapp
+        package: ${{env.DOTNET_ROOT}}/binSecretSanta
 
