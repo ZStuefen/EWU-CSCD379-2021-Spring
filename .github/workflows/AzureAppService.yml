@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
 # More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
 
-name: Azure App Service - EWU-CSCD379-2021-Spring-ZStuefen(Production), Build and deploy DotnetCore app
+name: AzureAppService
 
 on:
   push:
@@ -26,9 +26,6 @@ jobs:
     - name: Get Directory
       run: pwd
       
-    - name: dotnet run api
-      working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: dotnet run
 
     - name: npm install web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
@@ -37,12 +34,20 @@ jobs:
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm run build:prod
 
+    - name: dotnet build api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
+      run: dotnet build --no-restore --configuration Release
+
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: dotnet publish
+    - name: dotnet publish api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
+
+    - name: dotnet publish web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
 
