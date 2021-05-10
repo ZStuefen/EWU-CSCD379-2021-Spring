@@ -1,6 +1,9 @@
 ﻿# EWU-CSCD379-2021-Spring
-
+![](../../workflows/.NET/badge.svg)
 ![](../../workflows/AssignmentBuild.yml/badge.svg)
+![](../../workflows/assignment6_ewu-cscd379-2021-spring-zstuefen.yml/badge.svg)
+![](../../workflows/AssignmentBuild.yml/badge.svg?event=pull_request)
+![](../../workflows/AssignmentBuild.yml/badge.svg?branch=Assignment6)
 
 Fork/Branch:
 https://github.com/ZStuefen/EWU-CSCD379-2021-Spring/tree/Assignment6
