@@ -1,6 +1,6 @@
 ﻿# EWU-CSCD379-2021-Spring
-![Build](../../actions/workflows/AssignmentBuild.yml/badge.svg)
-![Azure Web App](../../actions/workflows/AzureAppService.yml/badge.svg)
+![](../../actions/workflows/AssignmentBuild.yml/badge.svg)
+![](../../actions/workflows/AzureAppService.yml/badge.svg)
 
 Fork/Branch:
 https://github.com/ZStuefen/EWU-CSCD379-2021-Spring/tree/Assignment6

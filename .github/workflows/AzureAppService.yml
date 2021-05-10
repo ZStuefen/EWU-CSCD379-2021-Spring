@@ -25,7 +25,6 @@ jobs:
         dotnet-version: 5.0.x
     - name: Get Directory
       run: pwd
-      
 
     - name: npm install web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
@@ -39,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: dotnet publish web
+    - name: dotnet publish
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
 
