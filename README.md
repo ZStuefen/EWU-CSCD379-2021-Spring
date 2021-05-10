@@ -1,7 +1,8 @@
 ﻿# EWU-CSCD379-2021-Spring
 ![](../../workflows/.NET/badge.svg)
-![AssignmentBuild](../../workflows/AssignmentBuild.yml/badge.svg)
-![assignment6_ewu-cscd379-2021-spring-zstuefen.yml](../../workflows/assignment6_ewu-cscd379-2021-spring-zstuefen.yml/badge.svg)
+![](../../workflows/main.yml/badge.svg)
+![](../../workflows/AssignmentBuild.yml/badge.svg)
+![](../../workflows/assignment6_ewu-cscd379-2021-spring-zstuefen.yml/badge.svg)
 
 Fork/Branch:
 https://github.com/ZStuefen/EWU-CSCD379-2021-Spring/tree/Assignment6

@@ -26,9 +26,9 @@ jobs:
     - name: Get Directory
       run: pwd
       
-    - name: dotnet build api
+    - name: dotnet run api
       working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: dotnet build
+      run: dotnet run
 
     - name: npm install web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
