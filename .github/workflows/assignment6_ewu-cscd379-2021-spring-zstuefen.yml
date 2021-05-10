@@ -26,20 +26,31 @@ jobs:
     - name: Get Directory
       run: pwd
 
-    - name: npm install
+    - name: npm install web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm install
-    - name: npm build
+    - name: npm build web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: npm run build:prod
+      
+    - name: npm install api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
+      run: npm install
+    - name: npm build api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
+      run: npm run build
 
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: dotnet publish
+    - name: dotnet publish web
       working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
+
+    - name: dotnet publish api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
 
     - name: Run Azure webapp deploy action using publish profile credentials

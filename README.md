@@ -2,6 +2,9 @@
 
 ![](../../workflows/.NET/badge.svg)
 
+Running Website:
+https://ewu-cscd379-2021-spring-zstuefen.azurewebsites.net/
+
 
 # Assignment 6
 
