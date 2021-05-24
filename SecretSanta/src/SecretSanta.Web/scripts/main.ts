@@ -153,6 +153,7 @@ export function createOrUpdateGroup() {
             try {
                 const client = new GroupsClient(apiHost);
                 this.group = await client.get(+id);
+                //await this.setAssignments(+id);
             } catch (error) {
                 console.log(error);
             }
@@ -208,6 +209,7 @@ export function createOrUpdateGroup() {
                 var client = new GroupsClient(apiHost);
                 await client.generateAssignments(currentGroupId);
             } catch (error) {
+                this.generationError = error;
                 console.log(error);
             }
         }

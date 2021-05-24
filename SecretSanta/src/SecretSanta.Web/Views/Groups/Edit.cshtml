@@ -1,14 +1,25 @@
 <section x-data="SecretSanta.createOrUpdateGroup()" x-init="loadData()">
+    <div>
+        <span class="text-red-500" x-text="generationError"></span>
+    </div>
     <div class="mb-6" x-show="isEditing">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="text-gray-500 font-bold text-right" for="Name">Name</label>
                 <input class="w-full border-b-2 border-green-300 focus:border-green-600 focus:ring-transparent focus:outline-none" type="text" id="Name" name="Name" x-model="group.name" />
                 <button class="border-2 bg-green-400 border-green-800 hover:bg-green-600 py-2 px-4 rounded-xl mr-3" @@click="update()">Update</button>
+                <button class="border-2 bg-green-400 border-green-800 hover:bg-green-600 py-2 px-4 rounded-xl mr-3" @@click="setAssignments(group)">Set Assignments</button>
             </div>
         </div>
     </div>
-    <div class="mb-6" x-show="isEditing == false" x-init="setAssignments(group)">
+    <div class="mb-6" x-show="isEditing == false">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <button class="border-2 bg-green-400 border-green-800 hover:bg-green-600 py-2 px-4 rounded-xl mr-3" @@click="setAssignments(group)">Set Assignments</button>
+            </div>
+        </div>
+    </div>
+    <div class="mb-6" x-show="isEditing == false">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="text-gray-500 font-bold text-right" for="Name">Name:</label>

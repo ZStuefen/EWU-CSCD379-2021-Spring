@@ -49,19 +49,19 @@ namespace SecretSanta.Business
         public AssignmentResult GenerateAssignments(int id)
         {
             bool res = MockData.Groups.TryGetValue(id, out Group? group);
-            if (group is null || !res)
+            if (res == false || group is null || group.Name is null || group.Name.Length == 0)
             {
-                return AssignmentResult.Error("Could not find group");
+                return AssignmentResult.Error("Group not found");
             }
             if (group.Users.Count <= 2)
             {
-                return AssignmentResult.Error("Group size too small");
+                return AssignmentResult.Error("Group " + group.Name + " must have at least three users");
             }
             List<User> users = group.Users;
-            group.Assignments = new List<Assignment>(group.Users.Count);
-            for (int x = 0; x <= group.Users.Count; x++)
+            group.Assignments = new List<Assignment>();
+            for (int x = 0; x < group.Users.Count; x++)
             {
-                group.Assignments[x] = new Assignment(users[x % users.Count], users[(x + 1) % users.Count]);
+                group.Assignments.Add(new Assignment(users[x], users[(x + 1) % users.Count]));
             }
             return AssignmentResult.Success();
         }
