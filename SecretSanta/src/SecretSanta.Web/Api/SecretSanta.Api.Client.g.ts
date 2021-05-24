@@ -10,13 +10,13 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 export interface IGroupsClient {
-    getAll(): Promise<Group[]>;
-    post(group: Group): Promise<Group>;
+    getAll(): Promise<Group[] | null>;
+    post(group: Group | undefined): Promise<Group>;
     get(id: number): Promise<Group>;
     delete(id: number): Promise<void>;
-    put(id: number, group: UpdateGroup): Promise<void>;
-    remove(id: number, userId: number): Promise<void>;
-    add(id: number, userId: number): Promise<void>;
+    put(id: number, group: UpdateGroup | null | undefined): Promise<void>;
+    remove(id: number, userId: number | undefined): Promise<void>;
+    add(id: number, userId: number | undefined): Promise<void>;
 }
 
 export class GroupsClient implements IGroupsClient {
@@ -29,7 +29,7 @@ export class GroupsClient implements IGroupsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(  cancelToken?: CancelToken | undefined): Promise<Group[]> {
+    getAll(  cancelToken?: CancelToken | undefined): Promise<Group[] | null> {
         let url_ = this.baseUrl + "/api/Groups";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -53,7 +53,7 @@ export class GroupsClient implements IGroupsClient {
         });
     }
 
-    protected processGetAll(response: AxiosResponse): Promise<Group[]> {
+    protected processGetAll(response: AxiosResponse): Promise<Group[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -80,10 +80,10 @@ export class GroupsClient implements IGroupsClient {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Group[]>(<any>null);
+        return Promise.resolve<Group[] | null>(<any>null);
     }
 
-    post(group: Group , cancelToken?: CancelToken | undefined): Promise<Group> {
+    post(group: Group | undefined , cancelToken?: CancelToken | undefined): Promise<Group> {
         let url_ = this.baseUrl + "/api/Groups";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -123,10 +123,7 @@ export class GroupsClient implements IGroupsClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
@@ -228,10 +225,7 @@ export class GroupsClient implements IGroupsClient {
         }
         if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -242,7 +236,7 @@ export class GroupsClient implements IGroupsClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    put(id: number, group: UpdateGroup , cancelToken?: CancelToken | undefined): Promise<void> {
+    put(id: number, group: UpdateGroup | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Groups/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -284,16 +278,10 @@ export class GroupsClient implements IGroupsClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -304,7 +292,7 @@ export class GroupsClient implements IGroupsClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    remove(id: number, userId: number , cancelToken?: CancelToken | undefined): Promise<void> {
+    remove(id: number, userId: number | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Groups/{id}/remove";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -346,16 +334,10 @@ export class GroupsClient implements IGroupsClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -366,7 +348,7 @@ export class GroupsClient implements IGroupsClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    add(id: number, userId: number , cancelToken?: CancelToken | undefined): Promise<void> {
+    add(id: number, userId: number | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Groups/{id}/add";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -408,16 +390,10 @@ export class GroupsClient implements IGroupsClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -430,11 +406,11 @@ export class GroupsClient implements IGroupsClient {
 }
 
 export interface IUsersClient {
-    getAll(): Promise<User[]>;
-    post(user: User): Promise<User>;
+    getAll(): Promise<User[] | null>;
+    post(user: User | undefined): Promise<User>;
     get(id: number): Promise<User>;
     delete(id: number): Promise<void>;
-    put(id: number, user: UpdateUser): Promise<void>;
+    put(id: number, user: UpdateUser | null | undefined): Promise<void>;
 }
 
 export class UsersClient implements IUsersClient {
@@ -447,7 +423,7 @@ export class UsersClient implements IUsersClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(  cancelToken?: CancelToken | undefined): Promise<User[]> {
+    getAll(  cancelToken?: CancelToken | undefined): Promise<User[] | null> {
         let url_ = this.baseUrl + "/api/Users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -471,7 +447,7 @@ export class UsersClient implements IUsersClient {
         });
     }
 
-    protected processGetAll(response: AxiosResponse): Promise<User[]> {
+    protected processGetAll(response: AxiosResponse): Promise<User[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -498,10 +474,10 @@ export class UsersClient implements IUsersClient {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<User[]>(<any>null);
+        return Promise.resolve<User[] | null>(<any>null);
     }
 
-    post(user: User , cancelToken?: CancelToken | undefined): Promise<User> {
+    post(user: User | undefined , cancelToken?: CancelToken | undefined): Promise<User> {
         let url_ = this.baseUrl + "/api/Users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -541,10 +517,7 @@ export class UsersClient implements IUsersClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
@@ -646,10 +619,7 @@ export class UsersClient implements IUsersClient {
         }
         if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -660,7 +630,7 @@ export class UsersClient implements IUsersClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    put(id: number, user: UpdateUser , cancelToken?: CancelToken | undefined): Promise<void> {
+    put(id: number, user: UpdateUser | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -702,16 +672,10 @@ export class UsersClient implements IUsersClient {
         }
         if (status === 400) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 404) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            return throwException("A server side error occurred.", status, _responseText, _headers);
         } else if (status === 200) {
             const _responseText = response.data;
             return Promise.resolve<void>(<any>null);
@@ -744,16 +708,16 @@ export class Group implements IGroup {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            if (Array.isArray(_data["users"])) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            if (Array.isArray(_data["Users"])) {
                 this.users = [] as any;
-                for (let item of _data["users"])
+                for (let item of _data["Users"])
                     this.users!.push(User.fromJS(item));
             }
-            if (Array.isArray(_data["assignments"])) {
+            if (Array.isArray(_data["Assignments"])) {
                 this.assignments = [] as any;
-                for (let item of _data["assignments"])
+                for (let item of _data["Assignments"])
                     this.assignments!.push(Assignment.fromJS(item));
             }
         }
@@ -768,17 +732,17 @@ export class Group implements IGroup {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
+        data["Id"] = this.id;
+        data["Name"] = this.name;
         if (Array.isArray(this.users)) {
-            data["users"] = [];
+            data["Users"] = [];
             for (let item of this.users)
-                data["users"].push(item.toJSON());
+                data["Users"].push(item.toJSON());
         }
         if (Array.isArray(this.assignments)) {
-            data["assignments"] = [];
+            data["Assignments"] = [];
             for (let item of this.assignments)
-                data["assignments"].push(item.toJSON());
+                data["Assignments"].push(item.toJSON());
         }
         return data; 
     }
@@ -807,9 +771,9 @@ export class User implements IUser {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
+            this.id = _data["Id"];
+            this.firstName = _data["FirstName"];
+            this.lastName = _data["LastName"];
         }
     }
 
@@ -822,9 +786,9 @@ export class User implements IUser {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
+        data["Id"] = this.id;
+        data["FirstName"] = this.firstName;
+        data["LastName"] = this.lastName;
         return data; 
     }
 }
@@ -850,8 +814,8 @@ export class Assignment implements IAssignment {
 
     init(_data?: any) {
         if (_data) {
-            this.giver = _data["giver"] ? User.fromJS(_data["giver"]) : <any>undefined;
-            this.receiver = _data["receiver"] ? User.fromJS(_data["receiver"]) : <any>undefined;
+            this.giver = _data["Giver"] ? User.fromJS(_data["Giver"]) : <any>undefined;
+            this.receiver = _data["Receiver"] ? User.fromJS(_data["Receiver"]) : <any>undefined;
         }
     }
 
@@ -864,8 +828,8 @@ export class Assignment implements IAssignment {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["giver"] = this.giver ? this.giver.toJSON() : <any>undefined;
-        data["receiver"] = this.receiver ? this.receiver.toJSON() : <any>undefined;
+        data["Giver"] = this.giver ? this.giver.toJSON() : <any>undefined;
+        data["Receiver"] = this.receiver ? this.receiver.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -873,74 +837,6 @@ export class Assignment implements IAssignment {
 export interface IAssignment {
     giver?: User | undefined;
     receiver?: User | undefined;
-}
-
-export class ProblemDetails implements IProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
-    extensions?: { [key: string]: any; } | undefined;
-
-    constructor(data?: IProblemDetails) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.type = _data["type"];
-            this.title = _data["title"];
-            this.status = _data["status"];
-            this.detail = _data["detail"];
-            this.instance = _data["instance"];
-            if (_data["extensions"]) {
-                this.extensions = {} as any;
-                for (let key in _data["extensions"]) {
-                    if (_data["extensions"].hasOwnProperty(key))
-                        (<any>this.extensions)![key] = _data["extensions"][key];
-                }
-            }
-        }
-    }
-
-    static fromJS(data: any): ProblemDetails {
-        data = typeof data === 'object' ? data : {};
-        let result = new ProblemDetails();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["title"] = this.title;
-        data["status"] = this.status;
-        data["detail"] = this.detail;
-        data["instance"] = this.instance;
-        if (this.extensions) {
-            data["extensions"] = {};
-            for (let key in this.extensions) {
-                if (this.extensions.hasOwnProperty(key))
-                    (<any>data["extensions"])[key] = this.extensions[key];
-            }
-        }
-        return data; 
-    }
-}
-
-export interface IProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
-    extensions?: { [key: string]: any; } | undefined;
 }
 
 export class UpdateGroup implements IUpdateGroup {
@@ -957,7 +853,7 @@ export class UpdateGroup implements IUpdateGroup {
 
     init(_data?: any) {
         if (_data) {
-            this.name = _data["name"];
+            this.name = _data["Name"];
         }
     }
 
@@ -970,7 +866,7 @@ export class UpdateGroup implements IUpdateGroup {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
+        data["Name"] = this.name;
         return data; 
     }
 }
@@ -994,8 +890,8 @@ export class UpdateUser implements IUpdateUser {
 
     init(_data?: any) {
         if (_data) {
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
+            this.firstName = _data["FirstName"];
+            this.lastName = _data["LastName"];
         }
     }
 
@@ -1008,8 +904,8 @@ export class UpdateUser implements IUpdateUser {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
+        data["FirstName"] = this.firstName;
+        data["LastName"] = this.lastName;
         return data; 
     }
 }

@@ -189,6 +189,27 @@ export function createOrUpdateGroup() {
                 console.log(error);
             }
             await this.loadGroup();
+        },
+        async getAssignment(user: User) {
+            if(this.group.assignments.length <= 0) return;
+            try {
+                this.group.assignments.forEach(assigned => {
+                   if (assigned.giver?.id == user.id)
+                   {
+                        return '${assigned.receiver?.firstName?} ${assigned.receiver?.firstName?}';
+                   }
+               });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async setAssignments(currentGroupId: number) {
+            try {
+                var client = new GroupsClient(apiHost);
+                await client.generateAssignments(currentGroupId);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 }
