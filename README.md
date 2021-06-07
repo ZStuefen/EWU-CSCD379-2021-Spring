@@ -1,4 +1,6 @@
-﻿# Assignment 9 & 10
+﻿![](../../actions/workflows/AssignmentBuild.yml/badge.svg)
+
+# Assignment 9 & 10
 
 ## Overview
 

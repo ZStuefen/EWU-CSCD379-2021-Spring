@@ -8,7 +8,7 @@ namespace SecretSanta.E2E.Tests
     [TestClass]
     public class EndToEndTests
     {
-        private static WebHostServerFixture<Web.Startup, Api.Startup> _Server;
+        private static WebHostServerFixture<Web.Startup, Api.Startup> _Server = new();
         [ClassInitialize]
         public static void InitializeClass(TestContext testContext)
         {
@@ -191,6 +191,7 @@ namespace SecretSanta.E2E.Tests
             await page.TypeAsync("input#LastName", "ThreeLast");
             await page.ClickAsync("text=Create");
             
+            /*
             await page.ClickAsync("text=Gifts");
 
             await page.ClickAsync("text=Create Gift");
@@ -198,13 +199,10 @@ namespace SecretSanta.E2E.Tests
             await page.TypeAsync("input#Description", "The description of this");
             await page.TypeAsync("input#Url", "www.google.com");
             await page.TypeAsync("input#Priority", "1");
+            */
             //await page.SelectOptionAsync("select#UserId", "2");
 
             //Assert.AreEqual(5, gifts.Count());
-
-            page.Dialog += (_, args) => args.Dialog.AcceptAsync();
-
-            await page.ClickAsync("body > section > section > section:last-child > a > section > form > button");
             //gifts = await page.QuerySelectorAllAsync("body > section > section > section");
             //Assert.AreEqual(4, gifts.Count());
         }

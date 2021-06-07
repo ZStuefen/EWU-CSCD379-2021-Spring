@@ -128,7 +128,7 @@ namespace SecretSanta.Business.Tests
         {
             GroupRepository sut = new();
 
-            sut.Save(new Group()!);
+            sut.Save(null!);
         }
 
         [TestMethod]
@@ -203,9 +203,9 @@ namespace SecretSanta.Business.Tests
                 Name = "Group"
             };
             u1 = (new User { Id = 9, FirstName = "John", LastName = "Doe" });
-            
-            //dbContext.Add<User>(u1);
-            //dbContext.Add<Group>(group);
+
+            ust.Create(u1);
+            sut.Create(group);
 
             GroupUser gu = new GroupUser{
                 Group = group,
@@ -214,13 +214,11 @@ namespace SecretSanta.Business.Tests
 
             dbContext.Add<GroupUser>(gu);
 
+            sut.AddToGroup(group.Id, u1.Id);
+
             dbContext.SaveChangesAsync();
 
-
-            //dbContext.GroupUsers.Add(gu);
-
-
-            sut.AddToGroup(group.Id, u1.Id);
+            Assert.AreEqual(sut.GetItem(group.Id)!.Users.Count(), 1);
         }
 
         [TestMethod]
