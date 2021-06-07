@@ -3,6 +3,8 @@
 @host = https://{{hostname}}:{{port}}
 @contentType = application/json
 
+## Users
+
 ###
 GET {{host}}/api/users
 
@@ -30,3 +32,69 @@ Content-Type: {{contentType}}
   "firstName": "Jane",
   "lastName": "Smith"
 }
+
+## Gifts
+
+###
+GET {{host}}/api/gifts
+
+###
+GET {{host}}/api/gifts/42
+
+###
+DELETE {{host}}/api/gifts/42
+
+###
+POST {{host}}/api/gifts
+Content-Type: {{contentType}}
+
+{
+  "id" : 42,
+  "title": "John",
+  "description": "Doe",
+  "url": "myUrl",
+  "priority": 1,
+  "userId": 42
+}
+
+###
+PUT {{host}}/api/gifts/42
+Content-Type: {{contentType}}
+
+{
+  "title": "Jane",
+  "description": "Smith",
+  "url": "newUrl",
+  "priority": 1,
+  "userId": 42
+}
+
+## Groups
+
+###
+GET {{host}}/api/groups
+
+###
+GET {{host}}/api/groups/42
+
+###
+DELETE {{host}}/api/groups/42
+
+###
+POST {{host}}/api/groups
+Content-Type: {{contentType}}
+
+{
+  "id" : 42,
+  "name": "The Groups"
+}
+
+###
+PUT {{host}}/api/groups/42
+Content-Type: {{contentType}}
+
+{
+  "name": "The Group but Newer"
+}
+
+## GroupsUser

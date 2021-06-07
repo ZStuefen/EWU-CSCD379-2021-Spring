@@ -8,15 +8,15 @@ using SecretSanta.Data;
 namespace SecretSanta.Business.Tests
 {
     [TestClass]
-    public class UserRepositoryTests
+    public class GiftRepositoryTests
     {
         [TestCleanup]
         async public Task Clear_Database()
         {
             using DbContext dbContext = new DbContext();
-            IQueryable<User>? users = dbContext.Users.Where(
-                item => item.FirstName.StartsWith(""));
-            dbContext.Users.RemoveRange(users);
+            IQueryable<Gift>? gifts = dbContext.Gifts.Where(
+                item => item.Title.StartsWith(""));
+            dbContext.Gifts.RemoveRange(gifts);
             await dbContext.SaveChangesAsync();
         }
 
@@ -24,7 +24,7 @@ namespace SecretSanta.Business.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_NullItem_ThrowsArgumentException()
         {
-            UserRepository sut = new();
+            GiftRepository sut = new();
 
             sut.Create(null!);
         }
@@ -32,71 +32,71 @@ namespace SecretSanta.Business.Tests
         [TestMethod]
         public void Create_WithItem_CanGetItem()
         {
-            UserRepository sut = new();
-            User user = new()
+            GiftRepository sut = new();
+            Gift gift = new()
             {
                 Id = 42
             };
 
-            User createdUser = sut.Create(user);
+            Gift createdGift = sut.Create(gift);
 
-            User? retrievedUser = sut.GetItem(createdUser.Id);
-            Assert.AreEqual(user.Id, retrievedUser!.Id);
-            Assert.AreEqual(user.FirstName, retrievedUser.FirstName);
-            Assert.AreEqual(user.LastName, retrievedUser.LastName);
+            Gift? retrievedGift = sut.GetItem(createdGift.Id);
+            Assert.AreEqual(gift.Id, retrievedGift!.Id);
+            Assert.AreEqual(gift.Title, retrievedGift.Title);
+            Assert.AreEqual(gift.Description, retrievedGift.Description);
         }
 
         [TestMethod]
         public void GetItem_WithBadId_ReturnsNull()
         {
-            UserRepository sut = new();
+            GiftRepository sut = new();
 
-            User? user = sut.GetItem(-1);
+            Gift? gift = sut.GetItem(-1);
 
-            Assert.IsNull(user);
+            Assert.IsNull(gift);
         }
 
         [TestMethod]
-        public void GetItem_WithValidId_ReturnsUser()
+        public void GetItem_WithValidId_ReturnsGift()
         {
-            UserRepository sut = new();
-            User temp = new User();
-            temp.Id = 42; temp.FirstName = "First"; temp.LastName = "Last";
+            GiftRepository sut = new();
+            Gift temp = new Gift();
+            temp.Id = 42; temp.Title = "First"; temp.Description = "Last";
             /*
             sut.Create(new() 
             { 
                 Id = 42,
-                FirstName = "First",
-                LastName = "Last"
+                Title = "First",
+                Description = "Last"
             });
             */
             sut.Create(temp);
 
-            User? user = sut.GetItem(42);
+            Gift? gift = sut.GetItem(42);
 
-            Assert.AreEqual(42, user?.Id);
-            Assert.AreEqual("First", user!.FirstName);
-            Assert.AreEqual("Last", user.LastName);
+            Assert.AreEqual(42, gift?.Id);
+            Assert.AreEqual("First", gift!.Title);
+            Assert.AreEqual("Last", gift.Description);
         }
 
         [TestMethod]
-        public void List_WithUsers_ReturnsAllUser()
+        public void List_WithGifts_ReturnsAllGift()
         {
             using DbContext dbContext = new DbContext();
-            UserRepository sut = new();
+            GiftRepository sut = new();
             sut.Create(new()
             {
                 Id = 42,
-                FirstName = "First",
-                LastName = "Last"
+                Title = "First",
+                Description = "Last"
             });
 
-            ICollection<User> users = sut.List();
+            ICollection<Gift> gifts = sut.List();
 
-            Assert.AreEqual(dbContext.Users.Count(), users.Count);
-            foreach(var mockUser in dbContext.Users)
+            Assert.AreEqual(dbContext.Gifts.Count(), gifts.Count);
+            foreach(var mockGift in dbContext.Gifts)
             {
-                Assert.IsNotNull(users.SingleOrDefault(x => x.FirstName == mockUser.FirstName && x.LastName == mockUser.LastName));
+                Assert.IsNotNull(gifts.SingleOrDefault(x => x.Title == mockGift.Title && x.Description == mockGift.Description));
             }
         }
 
@@ -105,12 +105,12 @@ namespace SecretSanta.Business.Tests
         [DataRow(42, true)]
         public void Remove_WithInvalidId_ReturnsTrue(int id, bool expected)
         {
-            UserRepository sut = new();
+            GiftRepository sut = new();
             sut.Create(new()
             {
                 Id = 42,
-                FirstName = "First",
-                LastName = "Last"
+                Title = "First",
+                Description = "Last"
             });
 
             Assert.AreEqual(expected, sut.Remove(id));
@@ -120,7 +120,7 @@ namespace SecretSanta.Business.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Save_NullItem_ThrowsArgumentException()
         {
-            UserRepository sut = new();
+            GiftRepository sut = new();
 
             sut.Save(null!);
         }
@@ -128,9 +128,9 @@ namespace SecretSanta.Business.Tests
         [TestMethod]
         public void Save_WithValidItem_SavesItem()
         {
-            UserRepository sut = new();
+            GiftRepository sut = new();
 
-            sut.Save(new User() { Id = 42 });
+            sut.Save(new Gift() { Id = 42 });
 
             Assert.AreEqual(42, sut.GetItem(42)?.Id);
         }

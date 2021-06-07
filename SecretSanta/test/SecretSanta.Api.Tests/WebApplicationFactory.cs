@@ -9,6 +9,7 @@ namespace SecretSanta.Api.Tests
     internal class WebApplicationFactory : WebApplicationFactory<Startup>
     {
         internal TestableUserRepository UserRepository { get; } = new();
+        internal TestableGiftRepository GiftRepository { get; } = new();
         internal TestableGroupRepository GroupRepository { get; } = new();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -16,6 +17,7 @@ namespace SecretSanta.Api.Tests
             builder.ConfigureServices(services => {
                 services.AddScoped<IUserRepository, TestableUserRepository>(_ => UserRepository);
                 services.AddScoped<IGroupRepository, TestableGroupRepository>(_ => GroupRepository);
+                services.AddScoped<IGiftRepository, TestableGiftRepository>(_ => GiftRepository);
             });
         }
     }

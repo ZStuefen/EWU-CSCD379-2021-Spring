@@ -9,5 +9,10 @@ namespace SecretSanta.Data
         public string LastName { get; set; } = "";
 
         public List<Group> Groups { get; } = new();
+
+        public override string ToString()
+        {
+            return $"{Id} {FirstName} {LastName}";
+        }
     }
 }

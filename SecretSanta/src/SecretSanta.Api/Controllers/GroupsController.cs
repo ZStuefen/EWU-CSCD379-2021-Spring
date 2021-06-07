@@ -82,8 +82,7 @@ namespace SecretSanta.Api.Controllers
             {
                 if (foundGroup.Users.FirstOrDefault(x => x.Id == userId) is { } user)
                 {
-                    foundGroup.Users.Remove(user);
-                    GroupRepository.Save(foundGroup);
+                    GroupRepository.RemoveFromGroup(foundGroup.Id, user.Id);
                 }
                 return Ok();
             }
@@ -102,8 +101,7 @@ namespace SecretSanta.Api.Controllers
             {
                 if (!foundGroup.Users.Any(x => x.Id == foundUser.Id))
                 {
-                    foundGroup.Users.Add(foundUser);
-                    GroupRepository.Save(foundGroup);
+                    GroupRepository.AddToGroup(id, userId);
                 }
                 return Ok();
             }

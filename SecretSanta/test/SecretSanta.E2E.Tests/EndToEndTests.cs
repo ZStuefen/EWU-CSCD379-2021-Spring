@@ -14,7 +14,7 @@ namespace SecretSanta.E2E.Tests
         {
             _Server = new();
         }
-
+        /*
         [TestMethod]
         public async Task LaunchHomepage()
         {
@@ -103,7 +103,7 @@ namespace SecretSanta.E2E.Tests
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
-                Headless = false
+                Headless = true
             });
 
             var page = await browser.NewPageAsync();
@@ -151,6 +151,62 @@ namespace SecretSanta.E2E.Tests
             await page.ClickAsync("body > section > section > section:last-child > a > section > form > button");
             gifts = await page.QuerySelectorAllAsync("body > section > section > section");
             Assert.AreEqual(4, gifts.Count());
+        }
+        */
+        [TestMethod]
+        public async Task FullTest()
+        {
+            var localhost = _Server.WebRootUri.AbsoluteUri.Replace("127.0.0.1", "localhost");
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = false
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Groups");
+            //Group
+            await page.ClickAsync("text=Create Group");
+            await page.TypeAsync("input#Name", "New Group");
+            await page.ClickAsync("text=Create");
+
+            await page.ClickAsync("text=Users");
+            //User 1
+            await page.ClickAsync("text=Create User");
+            await page.TypeAsync("input#FirstName", "OneFirst");
+            await page.TypeAsync("input#LastName", "OneLast");
+            await page.ClickAsync("text=Create");
+            //User 2
+            await page.ClickAsync("text=Create User");
+            await page.TypeAsync("input#FirstName", "TwoFirst");
+            await page.TypeAsync("input#LastName", "TwoLast");
+            await page.ClickAsync("text=Create");
+            //User 3
+            await page.ClickAsync("text=Create User");
+            await page.TypeAsync("input#FirstName", "ThreeFirst");
+            await page.TypeAsync("input#LastName", "ThreeLast");
+            await page.ClickAsync("text=Create");
+            
+            await page.ClickAsync("text=Gifts");
+
+            await page.ClickAsync("text=Create Gift");
+            await page.TypeAsync("input#Title", "Gift 1");
+            await page.TypeAsync("input#Description", "The description of this");
+            await page.TypeAsync("input#Url", "www.google.com");
+            await page.TypeAsync("input#Priority", "1");
+            //await page.SelectOptionAsync("select#UserId", "2");
+
+            //Assert.AreEqual(5, gifts.Count());
+
+            page.Dialog += (_, args) => args.Dialog.AcceptAsync();
+
+            await page.ClickAsync("body > section > section > section:last-child > a > section > form > button");
+            //gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            //Assert.AreEqual(4, gifts.Count());
         }
     }
 }
